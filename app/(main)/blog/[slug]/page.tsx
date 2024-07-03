@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 interface IPost {
   userId: number;
   id: number;
@@ -10,6 +12,9 @@ const PostPage = async ({ params }: { params: { slug: string } }) => {
     `https://jsonplaceholder.typicode.com/posts/${params.slug}`
   );
   const post = await res.json();
+  if (!post) {
+    notFound();
+  }
   return (
     <>
       <h1>{post.title}</h1>
@@ -24,9 +29,12 @@ export async function generateStaticParams() {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
   const posts = await response.json();
 
-  return posts.map((post: IPost) => ({
-    slug: post.id.toString(),
-  }));
+  const mostImportantPostsIds = posts
+    .map((post: IPost) => ({
+      slug: post.id.toString(),
+    }))
+    .slice(0, 10);
+  return mostImportantPostsIds;
 }
 
-export const dynamicParams = false;
+// export const dynamicParams = true;

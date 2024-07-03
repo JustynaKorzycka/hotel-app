@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 interface ITraveler {
   id: number;
   name: string;
@@ -11,9 +13,12 @@ interface ITraveler {
 
 const TravelerPage = async ({ params }: { params: { slug: string } }) => {
   const res = await fetch(
-    `https://jsonplaceholder.typicode.com/users?name=${params.slug}`
+    `https://jsonplaceholder.typicode.com/users?username=${params.slug}`
   );
   const travelerData = await res.json();
+  if (!travelerData) {
+    notFound();
+  }
   const traveler = travelerData[0];
   return (
     <>
@@ -29,7 +34,7 @@ export async function generateStaticParams() {
   const travelers = await response.json();
 
   return travelers.map((traveler: ITraveler) => ({
-    slug: `${traveler.name.replace(/\s/g, "%20")}`,
+    slug: `${traveler.username}`,
   }));
 }
 

@@ -1,4 +1,6 @@
 import HotelsList from "@/components/hotels/HotelsList";
+//ssr
+export const dynamic = "force-dynamic";
 
 const HotelsPage = () => {
   return (
