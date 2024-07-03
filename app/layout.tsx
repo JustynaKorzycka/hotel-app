@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
+import Layout from "@/layout";
 
-const inter = Inter({ subsets: ["latin"] });
+const beVietnam = Be_Vietnam_Pro({
+  weight: ["300", "600", "800"],
+  subsets: ["latin"],
+  variable: "--font-be_vietnam",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={beVietnam.className}>
+        <Layout>{children}</Layout>
+      </body>
     </html>
   );
 }
